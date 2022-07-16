@@ -11,7 +11,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <TailwindProvider>
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name='Home' component={HomeScreen} />
         </Stack.Navigator>
       </TailwindProvider>
