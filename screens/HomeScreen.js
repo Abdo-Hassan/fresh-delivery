@@ -1,10 +1,18 @@
+import { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Categories from '../components/Categories';
 import FeaturedRow from '../components/FeaturedRow';
 import Header from '../components/Header';
+import { client } from '../sanity';
 
 const HomeScreen = () => {
+  const [featuresCategories,setFeaturedCategories] = useState([])
+
+  useEffect(() => {
+    client.fetch()
+  }, []);
+
   return (
     <SafeAreaView className='pt-2'>
       <Header />
