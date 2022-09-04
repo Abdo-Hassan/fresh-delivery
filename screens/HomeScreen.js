@@ -7,10 +7,27 @@ import Header from '../components/Header';
 import { client } from '../sanity';
 
 const HomeScreen = () => {
-  const [featuresCategories,setFeaturedCategories] = useState([])
+  const [featuresCategories, setFeaturedCategories] = useState([]);
+  console.log('~ featuresCategories', featuresCategories);
 
+  // getting featuresCategories fro sanity
   useEffect(() => {
-    client.fetch()
+    client
+      .fetch(
+        `
+   *[_type == 'featured']{
+  ...,
+  restaurants[]=>{
+    ...,
+    dishes[]=>{
+      ...
+    }
+  }
+}`
+      )
+      .then((data) => {
+        setFeaturedCategories(data);
+      });
   }, []);
 
   return (
@@ -19,22 +36,16 @@ const HomeScreen = () => {
       <ScrollView>
         {/* Categories */}
         <Categories />
+
         {/* Featured Rows */}
-        <FeaturedRow
-          id='123'
-          title='Featured'
-          description='Paid placements from our parents'
-        />
-        <FeaturedRow
-          id='1234'
-          title='Tasty Discounts'
-          description="Everyone's been enjoying these juicy discounts"
-        />
-        <FeaturedRow
-          id='12345'
-          title='Offers near you!'
-          description='why not support your local restaurant tonight!'
-        />
+        {featuresCategories?.map((category) => (
+          <FeaturedRow
+            key={category._id}
+            id={category._id}
+            title={category?.name}
+            description='Paid placements from our parents'
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );

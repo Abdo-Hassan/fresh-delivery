@@ -20,7 +20,12 @@ export default {
       type: 'number',
       title: 'Price of the dish in GBP',
     },
-
+    {
+      name: 'category',
+      type: 'array',
+      title: 'Menu Category',
+      of: [{ type: 'reference', to: [{ type: 'category' }] }],
+    },
     {
       name: 'image',
       type: 'image',
